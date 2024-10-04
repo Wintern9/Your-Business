@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class ObjectClicker : MonoBehaviour
 {
+    public Camera Camera;
+
     void Update()
     {
         // Проверяем нажатие левой кнопки мыши
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             // Выполняем Raycast, чтобы определить, попали ли мы в объект
