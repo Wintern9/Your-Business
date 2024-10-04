@@ -7,7 +7,8 @@ public class SwitchButtonLogic : MonoBehaviour
     [SerializeField] private List<GameObject> GameObjectOnDisable;
     [SerializeField] private List<GameObject> GameObjectOnEnable;
 
-    [SerializeField] private bool haveAnimation;
+    [SerializeField] private bool HaveAnimation;
+    [SerializeField] private bool PauseGame;
 
     public void ButtonClick()
     {
@@ -21,5 +22,27 @@ public class SwitchButtonLogic : MonoBehaviour
             if (en != null)
                 en.SetActive(true);
         }
+    }
+
+    public void DisableComponent()
+    {
+        DataTypeSelector dts = gameObject.GetComponent<DataTypeSelector>();
+
+    }
+
+    /// <summary>
+    /// Поставить на паузу
+    /// </summary>
+    public void EneblePause()
+    {
+        Time.timeScale = 0f;
+    }
+
+    /// <summary>
+    /// Снять с паузы
+    /// </summary>
+    public void DisablePause()
+    {
+        Time.timeScale = 1f;
     }
 }
