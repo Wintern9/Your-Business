@@ -1,33 +1,53 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraCityMovement : MonoBehaviour
 {
     public float moveSpeed = 10f;
+    public float moveSpeedKeyboard = 25f;
     public float scrollSpeed = 5f;
     public float rotationSpeed = 3f;
 
     public Vector2 zoomRange = new Vector2(5f, 50f);
 
-    // Ограничения по перемещению камеры по X и Z
-    public Vector2 xLimits = new Vector2(-50f, 50f);  // Ограничения по X
-    public Vector2 zLimits = new Vector2(-50f, 50f);  // Ограничения по Z
+    public Vector2 xLimits = new Vector2(-50f, 50f);
+    public Vector2 zLimits = new Vector2(-50f, 50f);
 
     private Vector3 dragOrigin;
+    private bool isDragging = false;
 
-    private void Update()
+    public EventSystem ESPhone;
+    public EventSystemObject CPOPhone;
+
+    public bool permitionMove = true;
+
+    private void Start()
     {
-        MoveCameraWithKeyboard();
+        ESPhone = CPOPhone.IsPointerOverUIElement();
+    }
 
-        if (Input.GetMouseButtonDown(1))
+    void Update()
+    {
+        if (!ESPhone.IsPointerOverGameObject() && permitionMove)
         {
-            dragOrigin = Input.mousePosition;
-        }
-        if (Input.GetMouseButton(1))
-        {
-            MoveCameraWithMouse();
-        }
+            MoveCameraWithKeyboard();
 
-        //ZoomCamera();
+            if (Input.GetMouseButtonDown(0))
+            {
+                dragOrigin = Input.mousePosition;
+                isDragging = true;
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                isDragging = false;
+            }
+
+            if (isDragging)
+            {
+                MoveCameraWithMouse();
+            }
+        }
     }
 
     void MoveCameraWithKeyboard()
@@ -39,10 +59,8 @@ public class CameraCityMovement : MonoBehaviour
 
         direction = Quaternion.Euler(0, transform.eulerAngles.y, 0) * direction;
 
-        // Перемещение камеры с учетом ограничений
-        Vector3 newPosition = transform.position + direction * moveSpeed * Time.deltaTime;
+        Vector3 newPosition = transform.position + direction * moveSpeedKeyboard * Time.fixedDeltaTime;
 
-        // Ограничиваем перемещение по X и Z
         newPosition.x = Mathf.Clamp(newPosition.x, xLimits.x, xLimits.y);
         newPosition.z = Mathf.Clamp(newPosition.z, zLimits.x, zLimits.y);
 
@@ -54,14 +72,11 @@ public class CameraCityMovement : MonoBehaviour
         Vector3 difference = Input.mousePosition - dragOrigin;
         dragOrigin = Input.mousePosition;
 
-        Vector3 move = new Vector3(-difference.x, 0, -difference.y) * moveSpeed * Time.deltaTime;
-
+        Vector3 move = new Vector3(-difference.x, 0, -difference.y) * moveSpeed * Time.fixedDeltaTime;
         move = Quaternion.Euler(0, transform.eulerAngles.y, 0) * move;
 
-        // Перемещение камеры с учетом ограничений
         Vector3 newPosition = transform.position + move;
 
-        // Ограничиваем перемещение по X и Z
         newPosition.x = Mathf.Clamp(newPosition.x, xLimits.x, xLimits.y);
         newPosition.z = Mathf.Clamp(newPosition.z, zLimits.x, zLimits.y);
 
