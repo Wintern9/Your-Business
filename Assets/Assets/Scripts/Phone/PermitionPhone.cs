@@ -6,6 +6,11 @@ public class PermitionPhone : MonoBehaviour
 {
     public CameraCityMovement CCMObject;
 
+    private void Start()
+    {
+        CCMObject = GameObject.FindFirstObjectByType<CameraCityMovement>();
+    }
+
     public void PermitionTrue()
     {
         CCMObject.permitionMove = true;

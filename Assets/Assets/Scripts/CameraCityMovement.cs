@@ -23,30 +23,46 @@ public class CameraCityMovement : MonoBehaviour
 
     private void Start()
     {
-        ESPhone = CPOPhone.IsPointerOverUIElement();
+        if (CPOPhone != null)
+            ESPhone = CPOPhone.IsPointerOverUIElement();
+        else
+            Debug.LogError("Не загружается сцена телефона или не установлен объект");
+
+        if (ESPhone == null)
+        {
+            Debug.LogError("ESPhone не содержит объект");
+        }
     }
 
     void Update()
     {
-        if (!ESPhone.IsPointerOverGameObject() && permitionMove)
+        if (ESPhone != null && !ESPhone.IsPointerOverGameObject() && permitionMove)
         {
-            MoveCameraWithKeyboard();
+            MoveCamera();
+        } else if(ESPhone == null)
+        {
+            ESPhone = CPOPhone.IsPointerOverUIElement();
+        }
+    }
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                dragOrigin = Input.mousePosition;
-                isDragging = true;
-            }
+    void MoveCamera()
+    {
+        MoveCameraWithKeyboard();
 
-            if (Input.GetMouseButtonUp(0))
-            {
-                isDragging = false;
-            }
+        if (Input.GetMouseButtonDown(0))
+        {
+            dragOrigin = Input.mousePosition;
+            isDragging = true;
+        }
 
-            if (isDragging)
-            {
-                MoveCameraWithMouse();
-            }
+        if (Input.GetMouseButtonUp(0))
+        {
+            isDragging = false;
+        }
+
+        if (isDragging)
+        {
+            MoveCameraWithMouse();
         }
     }
 
