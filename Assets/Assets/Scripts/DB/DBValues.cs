@@ -22,6 +22,12 @@ public struct Credit
         _money = money;
         ID = ++DBValues.idCounter;
     }
+
+    public Credit(int IDC, float money)
+    {
+        _money = money;
+        ID = IDC;
+    }
 }
 
 
