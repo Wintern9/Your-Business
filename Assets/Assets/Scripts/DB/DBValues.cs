@@ -4,29 +4,13 @@ using UnityEngine;
 
 public struct Credit
 {
-    public int ID { get; private set; }
-    private float _money;
+    public int ID { get; set; }
+    public float Money { get; set; }
 
-    public float Money
+    public Credit(int id, float money)
     {
-        get { return _money; }
-        set
-        {
-            _money = value;
-            ID = ++DBValues.idCounter; 
-        }
-    }
-
-    public Credit(float money)
-    {
-        _money = money;
-        ID = ++DBValues.idCounter;
-    }
-
-    public Credit(int IDC, float money)
-    {
-        _money = money;
-        ID = IDC;
+        ID = id;
+        Money = money;
     }
 }
 
@@ -44,5 +28,4 @@ public class DBValues : MonoBehaviour
     static public float MoneyValue;
     static public List<Credit> Credit = new List<Credit>();
     static public List<HistoryCredit> HistoryCredit = new List<HistoryCredit>();
-
 }
