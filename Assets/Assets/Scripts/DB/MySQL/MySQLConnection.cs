@@ -26,7 +26,8 @@ public class MySQLConnection : MonoBehaviour
         CreateTable(@$"
                 CREATE TABLE IF NOT EXISTS credits (
                     id INT AUTO_INCREMENT PRIMARY KEY,
-                    money FLOAT(20, 2)
+                    money FLOAT(20, 2),
+                    repaid INT
                 );", "credits");
 
         CreateTable(@$"
@@ -97,7 +98,7 @@ public class MySQLConnection : MonoBehaviour
             {
                 conn.Open();
 
-                string query = "SELECT ID, Money FROM credits";
+                string query = "SELECT ID, Money, Repaid FROM credits";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -109,7 +110,8 @@ public class MySQLConnection : MonoBehaviour
                             Credit credit = new Credit
                             {
                                 ID = reader.GetInt32("ID"),
-                                Money = reader.GetFloat("Money")
+                                Money = reader.GetFloat("Money"),
+                                Repaid = reader.GetInt32("Repaid")
                             };
 
                             credits.Add(credit);
@@ -122,7 +124,15 @@ public class MySQLConnection : MonoBehaviour
         {
             Console.WriteLine("Error: " + ex.Message);
         }
-        credits.Sort((x, y) => x.ID.CompareTo(y.ID));
+        credits.Sort((x, y) =>
+        {
+            int result = x.Repaid.CompareTo(y.Repaid);
+            if (result == 0)
+            {
+                return x.ID.CompareTo(y.ID);
+            }
+            return result;
+        });
         return credits;
     }
 
@@ -134,12 +144,13 @@ public class MySQLConnection : MonoBehaviour
             {
                 conn.Open();
 
-                string query = "INSERT INTO credits (ID, Money) VALUES (@ID, @Money)";
+                string query = "INSERT INTO credits (ID, Money, Repaid) VALUES (@ID, @Money, @Repaid)";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@ID", credit.ID);
                     cmd.Parameters.AddWithValue("@Money", credit.Money);
+                    cmd.Parameters.AddWithValue("@Repaid", credit.Repaid);
 
                     int rowsAffected = cmd.ExecuteNonQuery();
 
