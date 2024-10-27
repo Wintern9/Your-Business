@@ -6,18 +6,9 @@ using UnityEngine;
 
 public class DBGetValues : MonoBehaviour
 {
-    static private string server = "localhost";
-    static private string user = "root";
-    static private string password = "";
-    static private string connectionString;
-
     void Awake()
     {
-        connectionString = $"Server={server}; port=3307; database=unity_db ;UID={user}; password={password};";
-
         string[] Queries = {"id", "money"};
-
-        //MySQLConnection.SetCredits(connectionString, new Credit(2, 10000f));
 
         DBValues.Credit = MySQLConnection.LoadCredits(MySQLConnection.connectionString);
         DBValues.Player = MySQLConnection.LoadPlayer(MySQLConnection.connectionString);
