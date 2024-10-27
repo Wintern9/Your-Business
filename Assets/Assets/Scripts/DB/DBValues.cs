@@ -5,42 +5,73 @@ using UnityEngine;
 public struct Player
 {
     public int ID { get; set; }
-    public float Money { get; set; }
+    private float money;
+
+    public float Money
+    {
+        get { return money; }
+        set
+        {
+            money = value;
+            BalanceView.BalanceChange();
+        }
+    }
+
     public string Settings { get; set; }
 
-    public Player(int id, float money, string settings)
+    public Player(int id, float initialMoney, string settings)
     {
         ID = id;
-        Money = money;
+        money = initialMoney;
         Settings = settings;
     }
+
+    public void Save()
+    {
+        MySQLConnection.SetPlayer(MySQLConnection.connectionString, this);
+    }
 }
+
+
 
 public struct Credit
 {
     public int ID { get; set; }
     public float Money { get; set; }
-    public int Repaid { get; set; }
+    private int repaid { get; set; }
 
-    public Credit(int id, float money, int repaid)
+    public int Repaid {
+        get { return repaid; } 
+        set
+        { 
+            repaid = value;
+        } 
+    }
+
+    public Credit(int id, float money, int repaids)
     {
         ID = id;
         Money = money;
-        Repaid = repaid;
+        repaid = repaids;
     }
 
-    public Credit(float money, int repaid)
+    public Credit(float money, int repaids)
     {
         ID = DBValues.Credit.Count+1;
         Money = money;
-        Repaid = repaid;
+        repaid = repaids;
     }
 
     public Credit(float money)
     {
         ID = DBValues.Credit.Count+1;
         Money = money;
-        Repaid = 0;
+        repaid = 0;
+    }
+
+    public void UpdateRepaid()
+    {
+        MySQLConnection.UpdateCredits(MySQLConnection.connectionString, this);
     }
 }
 

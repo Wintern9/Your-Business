@@ -25,7 +25,12 @@ public class LoadOnViewCredit : MonoBehaviour
 
     void InstantiateTable()
     {
-        float PosY = 0f;
+
+        Vector2 sizeDelta = ContentObject.GetComponent<RectTransform>().sizeDelta;
+        sizeDelta.y = DBValues.Credit.Count * 45f;
+        ContentObject.GetComponent<RectTransform>().sizeDelta = sizeDelta;
+
+        float PosY = (sizeDelta.y - 300f)/2;
         Debug.Log(DBValues.Credit.Count);
         for (int i = 0; i < DBValues.Credit.Count; i++)
         {
@@ -34,7 +39,6 @@ public class LoadOnViewCredit : MonoBehaviour
             GameObject obj = Instantiate(item);
             obj.transform.SetParent(ContentObject.transform);
 
-            // Установим параметры для UI-объекта
             RectTransform rectTransform = obj.GetComponent<RectTransform>();
             rectTransform.SetParent(ContentObject.transform);
             rectTransform.localRotation = Quaternion.identity;
@@ -43,12 +47,13 @@ public class LoadOnViewCredit : MonoBehaviour
             rectTransform.anchoredPosition3D = new Vector3(0f, PosY, 0f);
             PosY -= 45f;
 
-            // Установка текста для элемента
             TextMeshProUGUI[] textComponents = obj.GetComponentsInChildren<TextMeshProUGUI>();
             textComponents[0].text = DBValues.Credit[i].ID.ToString();
             textComponents[1].text = DBValues.Credit[i].Money.ToString();
 
             Debug.Log($"{DBValues.Credit[i].ID}, {DBValues.Credit[i].Money}");
+
+            obj.GetComponentInChildren<RepayCredit>().idRepay = i;
         }
     }
 }

@@ -9,7 +9,7 @@ public class MySQLConnection : MonoBehaviour
     static private string server = "localhost";
     static private string user = "root";
     static private string password = "";
-    static private string connectionString;
+    static public string connectionString;
 
     static private MySqlConnection connection;
 
@@ -122,7 +122,7 @@ public class MySQLConnection : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error: " + ex.Message);
+            Debug.LogError("Error: " + ex.Message);
         }
         credits.Sort((x, y) =>
         {
@@ -156,18 +156,53 @@ public class MySQLConnection : MonoBehaviour
 
                     if (rowsAffected > 0)
                     {
-                        Console.WriteLine("Данные успешно вставлены.");
+                        Debug.Log("Данные успешно вставлены.");
                     }
                     else
                     {
-                        Console.WriteLine("Не удалось вставить данные.");
+                        Debug.Log("Не удалось вставить данные.");
                     }
                 }
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error: " + ex.Message);
+            Debug.LogError("Error: " + ex.Message);
+        }
+    }
+
+    public static void UpdateCredits(string connectionString, Credit credit)
+    {
+        try
+        {
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+
+
+
+                string query = $"UPDATE credits SET Repaid = @Repaid WHERE ID = {credit.ID}";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Repaid", credit.Repaid);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        Debug.Log("Данные успешно обновлены.");
+                    }
+                    else
+                    {
+                        Debug.Log("Не удалось обновить данные.");
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
         }
     }
 
@@ -181,22 +216,26 @@ public class MySQLConnection : MonoBehaviour
             {
                 conn.Open();
 
-                string query = "SELECT ID, Money, Settings FROM player";
+                string query = "SELECT ID, Money, Settings FROM player WHERE ID = 1";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        while (reader.Read())
+                        if (reader.Read()) // Используем if, чтобы получить только первую запись
                         {
                             Player playerI = new Player
                             {
                                 ID = reader.GetInt32("ID"),
-                                Money = reader.GetFloat("Money"),
-                                Settings = reader.GetString("Settings")
+                                Money = reader.IsDBNull(reader.GetOrdinal("Money")) ? 0 : reader.GetFloat("Money"),
+                                Settings = reader.IsDBNull(reader.GetOrdinal("Settings")) ? string.Empty : reader.GetString("Settings")
                             };
 
                             player = playerI;
+                        }
+                        else
+                        {
+                            Debug.LogError("No player found with ID = 1.");
                         }
                     }
                 }
@@ -204,10 +243,11 @@ public class MySQLConnection : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error: " + ex.Message);
+            Debug.LogError("Error: " + ex.Message);
         }
         return player;
     }
+
 
     public static void SetPlayer(string connectionString, Player credit)
     {
@@ -217,31 +257,63 @@ public class MySQLConnection : MonoBehaviour
             {
                 conn.Open();
 
-                string query = "INSERT INTO player (ID, Money, Settings) VALUES (@ID, @Money, @Settings)";
-
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                // Проверяем, существует ли запись с ID = 1
+                string checkQuery = "SELECT COUNT(*) FROM player WHERE ID = 1";
+                using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn))
                 {
-                    cmd.Parameters.AddWithValue("@ID", credit.ID);
-                    cmd.Parameters.AddWithValue("@Money", credit.Money);
-                    cmd.Parameters.AddWithValue("@Settings", credit.Money);
+                    int count = Convert.ToInt32(checkCmd.ExecuteScalar());
 
-                    int rowsAffected = cmd.ExecuteNonQuery();
-
-                    if (rowsAffected > 0)
+                    if (count > 0)
                     {
-                        Console.WriteLine("Данные успешно вставлены.");
+                        // Если запись существует, обновляем её
+                        string updateQuery = "UPDATE player SET Money = @Money, Settings = @Settings WHERE ID = 1";
+                        using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn))
+                        {
+                            updateCmd.Parameters.AddWithValue("@Money", credit.Money);
+                            updateCmd.Parameters.AddWithValue("@Settings", credit.Settings);
+
+                            int rowsAffected = updateCmd.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                Debug.Log("Данные успешно обновлены.");
+                            }
+                            else
+                            {
+                                Debug.Log("Не удалось обновить данные.");
+                            }
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("Не удалось вставить данные.");
+                        // Если запись не существует, вставляем новую
+                        string insertQuery = "INSERT INTO player (ID, Money, Settings) VALUES (1, @Money, @Settings)";
+                        using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, conn))
+                        {
+                            insertCmd.Parameters.AddWithValue("@Money", credit.Money);
+                            insertCmd.Parameters.AddWithValue("@Settings", credit.Settings);
+
+                            int rowsAffected = insertCmd.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                Debug.Log("Новая запись успешно вставлена.");
+                            }
+                            else
+                            {
+                                Debug.Log("Не удалось вставить новую запись.");
+                            }
+                        }
                     }
                 }
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error: " + ex.Message);
+            Debug.LogError("Ошибка: " + ex.Message);
         }
     }
+
+
 }
 

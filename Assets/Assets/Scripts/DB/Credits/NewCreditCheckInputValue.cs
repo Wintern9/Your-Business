@@ -15,9 +15,11 @@ public class NewCreditCheckInputValue : MonoBehaviour
 
     void Check(string input)
     {
-        if(input != null && 10000 < int.Parse(input))
+        if((input != null || input != ""))
         {
-            inputField.text = "10000";
+            int.TryParse(input, out int s);
+            if (10000 < s)
+                inputField.text = "10000";
         }
     }
 

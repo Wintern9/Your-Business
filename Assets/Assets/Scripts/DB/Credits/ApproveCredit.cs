@@ -9,11 +9,14 @@ public class ApproveCredit : MonoBehaviour
     public TMP_InputField inputField;
 
     [SerializeField] private LoadOnViewCredit loadOnViewCreditObject;
+    [SerializeField] private Button buttonApprove;
 
     private void Start()
     {
-        gameObject.GetComponent<Button>().onClick.AddListener(Approve);
-        gameObject.GetComponent<Button>().onClick.AddListener(UpdateView);
+        buttonApprove = gameObject.GetComponent<Button>();
+
+        buttonApprove.onClick.AddListener(Approve);
+        buttonApprove.onClick.AddListener(UpdateView);
     }
 
     void Approve()
@@ -34,6 +37,9 @@ public class ApproveCredit : MonoBehaviour
             });
 
             DBValues.Player.Money += float.Parse(inputField.text);
+            DBValues.Player.Save();
+
+            ButtonClick();
         }
     }
 
@@ -42,12 +48,33 @@ public class ApproveCredit : MonoBehaviour
         loadOnViewCreditObject.UpdateView();
     }
 
-    //bool Check(string s)
-    //{
-    //    if(s == null)
-    //        return false;
-        
-    //    if()
-    //        return true;
-    //}
+    bool Check(string s)
+    {
+        if (s == null || s == "")
+            return false;
+        if (s != null)
+            return true;
+
+        return false;
+    }
+
+    [SerializeField] private GameObject NewCredit;
+
+    private void ButtonClick()
+    {
+        if (NewCredit != null)
+            NewCredit.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if(inputField.text == null || inputField.text == "")
+        {
+            buttonApprove.enabled = false;
+        }
+        else
+        {
+             buttonApprove.enabled = true;
+        }
+    }
 }

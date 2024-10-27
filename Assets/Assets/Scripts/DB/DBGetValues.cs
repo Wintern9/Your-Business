@@ -19,8 +19,8 @@ public class DBGetValues : MonoBehaviour
 
         //MySQLConnection.SetCredits(connectionString, new Credit(2, 10000f));
 
-        DBValues.Credit = MySQLConnection.LoadCredits(connectionString);
-        DBValues.Player = MySQLConnection.LoadPlayer(connectionString);
-        Debug.Log(DBValues.Player.Money);
+        DBValues.Credit = MySQLConnection.LoadCredits(MySQLConnection.connectionString);
+        DBValues.Player = MySQLConnection.LoadPlayer(MySQLConnection.connectionString);
+        Debug.Log($"{DBValues.Player.ID}, {DBValues.Player.Money}");
     }
 }
