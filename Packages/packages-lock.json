@@ -197,13 +197,6 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       }
     },
-    "com.unity.searcher": {
-      "version": "4.9.1",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
     "com.unity.settings-manager": {
       "version": "1.0.3",
       "depth": 1,
@@ -212,12 +205,11 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.shadergraph": {
-      "version": "12.1.12",
+      "version": "file:D:/User/Download/procedural-stochastic-texturing-master/procedural-stochastic-texturing-master",
       "depth": 0,
-      "source": "builtin",
+      "source": "local",
       "dependencies": {
-        "com.unity.render-pipelines.core": "12.1.12",
-        "com.unity.searcher": "4.9.1"
+        "com.unity.render-pipelines.core": "6.7.0"
       }
     },
     "com.unity.test-framework": {
