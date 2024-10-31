@@ -8,7 +8,7 @@ public class MySQLConnection : MonoBehaviour
 {
     static private string server = "localhost";
     static private string user = "root";
-    static private string password = "";
+    static private string password = "root";
     static public string connectionString;
 
     static private MySqlConnection connection;

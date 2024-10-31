@@ -81,6 +81,30 @@ public struct HistoryCredit
     public float Money { get; set; }
 }
 
+public enum Job
+{
+    Programmer,
+    Tester,
+    Analytic,
+    Marketolog,
+    Sisadmin,
+    DataScience
+}
+
+public struct Jobs
+{
+    public int ID { get; set; }
+    public Job job { get; set; }
+    public int buff { get; set; }
+
+    public Jobs(int id, Job job, int repaids)
+    {
+        ID = id;
+        this.job = job;
+        buff = repaids;
+    }
+}
+
 public class DBValues : MonoBehaviour
 {
     public static int idCounter = -1;

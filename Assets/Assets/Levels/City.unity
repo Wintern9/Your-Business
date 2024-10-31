@@ -3265,7 +3265,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SHOPPING
+  m_text: SHOP
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
   m_sharedMaterial: {fileID: 2140474, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
@@ -8592,7 +8592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a68eea3f8048c4da5552199a25fefd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameObject: City
+  nameObject: Marketing
 --- !u!65 &973475528
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8602,7 +8602,7 @@ BoxCollider:
   m_GameObject: {fileID: 973475523}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 14.328797, y: 16.645971, z: 12.048929}
   m_Center: {x: 0, y: 8.322986, z: 0}
@@ -11432,7 +11432,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1339176689
 Transform:
   m_ObjectHideFlags: 0
@@ -18560,7 +18560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a68eea3f8048c4da5552199a25fefd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameObject: City
+  nameObject: Shop
 --- !u!65 &2032152715
 BoxCollider:
   m_ObjectHideFlags: 0
