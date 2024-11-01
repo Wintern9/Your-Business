@@ -83,12 +83,7 @@ public struct HistoryCredit
 
 public enum Job
 {
-    Programmer,
-    Tester,
-    Analytic,
-    Marketolog,
-    Sisadmin,
-    DataScience
+    ///
 }
 
 public struct Jobs
@@ -105,12 +100,47 @@ public struct Jobs
     }
 }
 
+public enum Room
+{
+    Room,
+    RoomLeft,
+    RoomRight,
+    RoomLeftRight
+}
+public enum TypeRoom
+{
+    Empty,
+    Accountant,
+    Marketing,
+    Programmer
+}
+
+
+public struct Rooms
+{
+    public int ID { get; set; }
+    public Room room { get; set; }
+    public TypeRoom type { get; set; }
+    public int level { get; set; }
+    public Vector2 posRoom { get; set; }
+
+    public Rooms(int id, Room room, TypeRoom type, int level, Vector2 posRoom)
+    {
+        ID = id;
+        this.room = room;
+        this.type = type;
+        this.level = level;
+        this.posRoom = posRoom;
+    }
+}
+
 public class DBValues : MonoBehaviour
 {
     public static int idCounter = -1;
 
     static public float MoneyValue;
     static public List<Credit> Credit = new List<Credit>();
+    static public List<Rooms> Rooms = new List<Rooms>();
     static public Player Player = new Player();
     static public List<HistoryCredit> HistoryCredit = new List<HistoryCredit>();
 }
