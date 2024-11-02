@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class RoomsOfficeController : MonoBehaviour
 {
@@ -12,7 +11,7 @@ public class RoomsOfficeController : MonoBehaviour
     void Start()
     {
         List<Rooms> roomsType = DBValues.Rooms;
-        roomsType.Add(new Rooms(0, Room.Room, TypeRoom.Empty, 0, new Vector2(0,0)));
+        roomsType.Add(new Rooms(0, Room.RoomLeft, TypeRoom.Empty, 0, new Vector2(0,0)));
         roomsType.Add(new Rooms(1, Room.Room, TypeRoom.Empty, 0, new Vector2(-10,0)));
         
         InstantiateRoom(roomsType);

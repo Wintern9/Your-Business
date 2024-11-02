@@ -5482,6 +5482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputField: {fileID: 406827121}
   loadOnViewCreditObject: {fileID: 672804876}
+  buttonApprove: {fileID: 0}
   NewCredit: {fileID: 886317360}
 --- !u!1 &886317360
 GameObject:
