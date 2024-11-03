@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RoomLogic : MonoBehaviour
@@ -7,7 +8,7 @@ public class RoomLogic : MonoBehaviour
     public Rooms roomType;
 
     /// <summary>
-    /// Room, RoomL, RoomR, RoomLR
+    /// Room, RoomTransp
     /// </summary>
     public List<GameObject> gameObjects;
 
@@ -18,18 +19,19 @@ public class RoomLogic : MonoBehaviour
 
     int GetIndexRoom()
     {
-        switch (roomType.room)
+        switch (Transparent())
         {
-            case Room.Room:
+            case true:
                 return 0;
-            case Room.RoomLeft:
+            case false:
                 return 1;
-            case Room.RoomRight:
-                return 2;
-            case Room.RoomLeftRight:
-                return 3;
-            default:
-                return 0;
         }
     }
+
+    bool Transparent()
+    {
+        var targetPosition = roomType.posRoom + new Vector2(-10, 0);
+        return DBValues.Rooms.Any(r => r.posRoom == targetPosition);
+    }
+
 }

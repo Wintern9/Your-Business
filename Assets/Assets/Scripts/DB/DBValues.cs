@@ -103,9 +103,7 @@ public struct Jobs
 public enum Room
 {
     Room,
-    RoomLeft,
-    RoomRight,
-    RoomLeftRight
+    RoomNT,
 }
 public enum TypeRoom
 {
