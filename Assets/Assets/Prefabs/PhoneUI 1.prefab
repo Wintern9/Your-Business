@@ -296,6 +296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 131961641}
+  - component: {fileID: 701267477555158216}
   m_Layer: 5
   m_Name: Job (1)
   m_TagString: Untagged
@@ -328,6 +329,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 133.8}
   m_SizeDelta: {x: 380, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &701267477555158216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131961640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c37af08acff4da4ba118e563bcbdd7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NameSurname: {fileID: 911506735}
+  Job: {fileID: 1723630563}
 --- !u!1 &184158117
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,6 +738,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 648991426}
+  - component: {fileID: 7217703738910061284}
   m_Layer: 5
   m_Name: Job (2)
   m_TagString: Untagged
@@ -755,6 +771,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 33.799988}
   m_SizeDelta: {x: 380, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7217703738910061284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648991425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c37af08acff4da4ba118e563bcbdd7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NameSurname: {fileID: 1135764448}
+  Job: {fileID: 2123155303}
 --- !u!1 &696544031
 GameObject:
   m_ObjectHideFlags: 0
@@ -6394,7 +6424,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2906437204678616414}
   m_Direction: 0
   m_Value: 1
-  m_Size: 0.9999997
+  m_Size: 0.99999964
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9267,6 +9297,7 @@ GameObject:
   - component: {fileID: 5091822300676078980}
   - component: {fileID: 5091822300676078981}
   - component: {fileID: 5091822300676078982}
+  - component: {fileID: 7923250292951325826}
   m_Layer: 5
   m_Name: App - jobs
   m_TagString: Untagged
@@ -9375,7 +9406,36 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5091822300676078981}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7923250292951325826}
+        m_TargetAssemblyTypeName: SwitchButtonLogic, Assembly-CSharp
+        m_MethodName: ButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7923250292951325826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5091822300676078984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3720388090cfe842b2903b15742816f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameObjectOnDisable: []
+  GameObjectOnEnable:
+  - {fileID: 6711147751288947037}
+  HaveAnimation: 0
+  PauseGame: 0
 --- !u!1 &5091822300800046485
 GameObject:
   m_ObjectHideFlags: 0
@@ -12417,6 +12477,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1840079610}
   text: {fileID: 831658127}
+  jobInfoLogic:
+  - {fileID: 8492692757289759028}
+  - {fileID: 701267477555158216}
+  - {fileID: 7217703738910061284}
 --- !u!1 &6817821262161155095
 GameObject:
   m_ObjectHideFlags: 0
@@ -12816,6 +12880,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1651283140307102249}
+  - component: {fileID: 8492692757289759028}
   m_Layer: 5
   m_Name: Job
   m_TagString: Untagged
@@ -12848,6 +12913,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 233.8}
   m_SizeDelta: {x: 380, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8492692757289759028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7413609469664055559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c37af08acff4da4ba118e563bcbdd7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NameSurname: {fileID: 2170853503125252236}
+  Job: {fileID: 6865007128898917671}
 --- !u!1 &7600010636923208818
 GameObject:
   m_ObjectHideFlags: 0

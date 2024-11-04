@@ -55,12 +55,18 @@ public class HireEmployer : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
         if(procentBar >= 1f)
         {
+            EmployerHire();
+        }
+    }
+
+    void EmployerHire()
+    {
+        if (DBValues.CompanyJobPlaces.Recruter >= 0)
+        {
             employerInfoObject.SetActive(false);
             employerHireObject.SetActive(true);
             procentBar = 0f;
             isMouseButtonDown = false;
         }
     }
-
-    
 }

@@ -81,25 +81,6 @@ public struct HistoryCredit
     public float Money { get; set; }
 }
 
-public enum Job
-{
-    ///
-}
-
-public struct Jobs
-{
-    public int ID { get; set; }
-    public Job job { get; set; }
-    public int buff { get; set; }
-
-    public Jobs(int id, Job job, int repaids)
-    {
-        ID = id;
-        this.job = job;
-        buff = repaids;
-    }
-}
-
 public enum Room
 {
     Room,
@@ -143,7 +124,20 @@ public struct JobsSurnames
     public string Female_surname { get; set; }
 }
 
+/// <summary>
+/// Имя, Фамилия
+/// </summary>
+public struct JobNS
+{
+    public string Name { get; set; }
+    public string Surname { get; set; }
 
+    public JobNS(string Name, string Surname)
+    {
+        this.Name = Name;
+        this.Surname = Surname;
+    }
+}
 
 public struct JobsNS
 {
@@ -157,6 +151,77 @@ public struct JobsNS
     }
 }
 
+/// <summary>
+/// Тип работы
+/// </summary>
+public enum JobName
+{
+    Recruiter,
+    Accountant,
+    Marketing,
+    Programmer
+}
+
+public struct JobSkill
+{
+    public string Name { get; set; }
+    public int IndexSkill { get; set; }
+    public JobName JobName { get; set; }
+    public float Effect { get; set; }
+
+    public JobSkill(string Name, int IndexSkill, JobName JobName , float Effect)
+    {
+        this.Name = Name;
+        this.IndexSkill = IndexSkill;
+        this.JobName = JobName;
+        this.Effect = Effect;
+    }
+}
+
+public struct Employer
+{
+    public JobNS JobNS { get; set; }
+    public JobName JobName { get; set; }
+    public JobSkill JobSkill { get; set; }
+    public int YearDeveloping {get; set; }
+
+    public Employer(JobNS JobNS, JobName JobName, JobSkill JobSkill, int YearDeveloping)
+    {
+        this.JobNS = JobNS;
+        this.JobName = JobName;
+        this.JobSkill = JobSkill;
+        this.YearDeveloping = YearDeveloping;
+    }
+}
+
+public struct Finder
+{
+    public bool Filter { get; set; }
+    public bool Skills { get; set; }
+    public int Employer { get; set; }
+
+    public Finder(bool Filter, bool Skills, int Employer)
+    {
+        this.Filter = Filter;
+        this.Skills = Skills;
+        this.Employer = Employer;
+    }
+}
+
+public struct CompanyJobPlaces
+{
+    public int Marketing { get; set; }
+    public int Recruter { get; set; }
+    public int Programmer { get; set; }
+
+    public CompanyJobPlaces(int Marketing, int Recruter, int Programmer)
+    {
+        this.Marketing = Marketing;
+        this.Recruter = Recruter;
+        this.Programmer = Programmer;
+    }
+}
+
 public class DBValues : MonoBehaviour
 {
     public static int idCounter = -1;
@@ -167,4 +232,60 @@ public class DBValues : MonoBehaviour
     static public Player Player = new Player();
     static public List<HistoryCredit> HistoryCredit = new List<HistoryCredit>();
     static public JobsNS JobsNS = new JobsNS();
+
+    static public List<Employer> EmployerJob = new List<Employer>();
+    static public List<Employer> EmployerCompany = new List<Employer>();
+
+    static public CompanyJobPlaces CompanyJobPlaces = new CompanyJobPlaces();
 }
+
+public class JobSkillGenerator
+{
+    public static Dictionary<JobName, List<JobSkill>> skillPool = new Dictionary<JobName, List<JobSkill>>()
+    {
+        {
+            JobName.Recruiter, new List<JobSkill>
+            {
+                new JobSkill("Открывает собеседование", 1, JobName.Recruiter, 1f),
+                new JobSkill("Открывает фильтр", 2, JobName.Recruiter, 1f),
+                new JobSkill("Добавляет слот в поисковике", 3, JobName.Recruiter, 1f)
+            }
+        },
+        {
+            JobName.Accountant, new List<JobSkill>
+            {
+                new JobSkill("Financial Reporting", 1, JobName.Accountant, 0.8f),
+                new JobSkill("Budget Management", 2, JobName.Accountant, 0.87f)
+            }
+        },
+        {
+            JobName.Marketing, new List<JobSkill>
+            {
+                new JobSkill("Social Media", 1, JobName.Marketing, 0.75f),
+                new JobSkill("Content Creation", 2, JobName.Marketing, 0.82f)
+            }
+        },
+        {
+            JobName.Programmer, new List<JobSkill>
+            {
+                new JobSkill("Coding", 1, JobName.Programmer, 0.9f),
+                new JobSkill("Debugging", 2, JobName.Programmer, 0.88f)
+            }
+        }
+    };
+
+    public static JobSkill GetRandomSkillForJob(JobName jobName)
+    {
+        if (skillPool.ContainsKey(jobName))
+        {
+            var skills = skillPool[jobName];
+            int randomIndex = Random.Range(0, skills.Count);
+            return skills[randomIndex];
+        }
+        else
+        {
+            throw new System.Exception("No skills available for the selected job.");
+        }
+    }
+}
+
