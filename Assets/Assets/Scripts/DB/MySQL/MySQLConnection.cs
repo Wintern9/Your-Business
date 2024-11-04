@@ -36,6 +36,25 @@ public class MySQLConnection : MonoBehaviour
                     money FLOAT(20, 2),
                     settings VARCHAR(100)
                 );", "player");
+
+        CreateTable(@$"
+                CREATE TABLE IF NOT EXISTS Names (
+                male_name VARCHAR(50),
+                female_name VARCHAR(50)
+            );", "Names");
+
+        CreateTable(@$"
+                CREATE TABLE IF NOT EXISTS Surnames (
+                male_surname VARCHAR(50),
+                female_surname VARCHAR(50)
+            );", "Surnames");
+
+        //using (MySqlConnection conn = new MySqlConnection(connectionString))
+        //{
+        //    conn.Open();
+        //    InsertNames(conn);
+        //    InsertSurnames(conn);
+        //}
     }
 
     void CreateDatabase()
@@ -179,8 +198,6 @@ public class MySQLConnection : MonoBehaviour
             {
                 conn.Open();
 
-
-
                 string query = $"UPDATE credits SET Repaid = @Repaid WHERE ID = {credit.ID}";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
@@ -314,6 +331,128 @@ public class MySQLConnection : MonoBehaviour
         }
     }
 
+    static void InsertNames(MySqlConnection connection)
+    {
+        string insertNamesQuery = @"
+                INSERT INTO Names (male_name, female_name) VALUES
+                ('Александр', 'Анна'),
+                ('Дмитрий', 'Мария'),
+                ('Сергей', 'Елена'),
+                ('Михаил', 'Ольга'),
+                ('Андрей', 'Наталья'),
+                ('Иван', 'Татьяна'),
+                ('Алексей', 'Екатерина'),
+                ('Николай', 'Ирина'),
+                ('Владимир', 'Светлана'),
+                ('Павел', 'Людмила'),
+                ('Артём', 'Юлия'),
+                ('Максим', 'Оксана'),
+                ('Олег', 'Анастасия'),
+                ('Руслан', 'Вера'),
+                ('Кирилл', 'Валентина'),
+                ('Константин', 'Виктория'),
+                ('Евгений', 'Алёна'),
+                ('Роман', 'Ксения'),
+                ('Илья', 'Полина'),
+                ('Антон', 'Надежда');";
 
+        using (var command = new MySqlCommand(insertNamesQuery, connection))
+        {
+            command.ExecuteNonQuery();
+        }
+    }
+
+    static void InsertSurnames(MySqlConnection connection)
+    {
+        string insertSurnamesQuery = @"
+                INSERT INTO Surnames (male_surname, female_surname) VALUES
+                ('Иванов', 'Смирнова'),
+                ('Кузнецов', 'Орлова'),
+                ('Волков', 'Морозова'),
+                ('Соколов', 'Васильева'),
+                ('Новиков', 'Ковалева'),
+                ('Попов', 'Павлова'),
+                ('Лебедев', 'Григорьева'),
+                ('Морозов', 'Андреева'),
+                ('Петров', 'Михайлова'),
+                ('Васильев', 'Николаева'),
+                ('Гусев', 'Захарова'),
+                ('Фёдоров', 'Дмитриева'),
+                ('Киселёв', 'Соловьева'),
+                ('Ефимов', 'Козлова'),
+                ('Щербаков', 'Савельева'),
+                ('Шишкин', 'Жукова'),
+                ('Яковлев', 'Миронова'),
+                ('Зуев', 'Игнатьева'),
+                ('Голубев', 'Чернова'),
+                ('Егоров', 'Рябова');";
+
+        using (var command = new MySqlCommand(insertSurnamesQuery, connection))
+        {
+            command.ExecuteNonQuery();
+        }
+    }
+
+    public static JobsNS LoadJobsNS(string connectionString)
+    {
+        List<JobsNames> jobsNames = new List<JobsNames>();
+        List<JobsSurnames> jobsSurnames = new List<JobsSurnames>();
+
+        try
+        {
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string query = "SELECT male_name, female_name FROM Names";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+                            JobsNames names = new JobsNames
+                            {
+                                Male_name = reader.GetString("male_name"),
+                                Female_name = reader.GetString("female_name")
+                            };
+
+                            jobsNames.Add(names);
+                        }
+                    }
+                }
+
+                string query2 = "SELECT male_surname, female_surname FROM Surnames";
+
+                using (MySqlCommand cmd = new MySqlCommand(query2, conn))
+                {
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+                            JobsSurnames surnames = new JobsSurnames
+                            {
+                                Male_surname = reader.GetString("male_surname"),
+                                Female_surname = reader.GetString("female_surname")
+                            };
+
+                            jobsSurnames.Add(surnames);
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+        }
+
+        JobsNS jobsNS = new JobsNS(jobsNames.ToArray(), jobsSurnames.ToArray());
+
+        return jobsNS;
+    }
 }
 

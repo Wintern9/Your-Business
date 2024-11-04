@@ -8,10 +8,10 @@ public class DBGetValues : MonoBehaviour
 {
     void Awake()
     {
-        string[] Queries = {"id", "money"};
-
         DBValues.Credit = MySQLConnection.LoadCredits(MySQLConnection.connectionString);
+        DBValues.JobsNS = MySQLConnection.LoadJobsNS(MySQLConnection.connectionString);
         DBValues.Player = MySQLConnection.LoadPlayer(MySQLConnection.connectionString);
         Debug.Log($"{DBValues.Player.ID}, {DBValues.Player.Money}");
+        Debug.Log($"---- {DBValues.JobsNS.Names.Length}, {DBValues.JobsNS.Surnames.Length}");
     }
 }

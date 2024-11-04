@@ -132,6 +132,31 @@ public struct Rooms
     }
 }
 
+public struct JobsNames
+{
+    public string Male_name { get; set; }
+    public string Female_name { get; set; }
+}
+public struct JobsSurnames
+{
+    public string Male_surname { get; set; }
+    public string Female_surname { get; set; }
+}
+
+
+
+public struct JobsNS
+{
+    public JobsNames[] Names { get; set; }
+    public JobsSurnames[] Surnames { get; set; }
+
+    public JobsNS(JobsNames[] Names, JobsSurnames[] Surnames)
+    {
+        this.Names = Names;
+        this.Surnames = Surnames;
+    }
+}
+
 public class DBValues : MonoBehaviour
 {
     public static int idCounter = -1;
@@ -141,4 +166,5 @@ public class DBValues : MonoBehaviour
     static public List<Rooms> Rooms = new List<Rooms>();
     static public Player Player = new Player();
     static public List<HistoryCredit> HistoryCredit = new List<HistoryCredit>();
+    static public JobsNS JobsNS = new JobsNS();
 }
