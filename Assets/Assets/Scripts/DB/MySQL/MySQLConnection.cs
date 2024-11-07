@@ -15,7 +15,7 @@ public class MySQLConnection : MonoBehaviour
 
     void Awake()
     {
-        connectionString = $"Server={server}; port=3307; UID={user}; password={password};";
+        connectionString = $"Server={server}; port=3307; UID={user}; password={password}; Database=unity_db;";
         IntelizationDataBase();
     }
 
