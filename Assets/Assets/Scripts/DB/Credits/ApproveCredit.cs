@@ -23,8 +23,7 @@ public class ApproveCredit : MonoBehaviour
     {
         if (Check(inputField.text))
         {
-            string connectionString = $"Server=localhost; port=3307; database=unity_db ;UID=root; password=;";
-            MySQLConnection.SetCredits(connectionString, new Credit(float.Parse(inputField.text)));
+            MySQLConnection.SetCredits(MySQLConnection.connectionString, new Credit(float.Parse(inputField.text)));
             DBValues.Credit.Add(new Credit(float.Parse(inputField.text)));
             DBValues.Credit.Sort((x, y) =>
             {
