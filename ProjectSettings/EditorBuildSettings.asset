@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Assets/Levels/Marketing.unity
     guid: 4505dc28e51630e4ea1e20e53625288f
+  - enabled: 1
+    path: Assets/Assets/Levels/Shop.unity
+    guid: 6f2e111804ddd7348bdfcd4ac0a4f2f0
   m_configObjects: {}
