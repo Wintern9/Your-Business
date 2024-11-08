@@ -12,6 +12,8 @@ public class DBGetValues : MonoBehaviour
         DBValues.JobsNS = MySQLConnection.LoadJobsNS(MySQLConnection.connectionString);
         DBValues.Player = MySQLConnection.LoadPlayer(MySQLConnection.connectionString);
 
+        DBValues.Rooms = MySQLConnection.LoadRooms();
+
         DBValues.CompanyJobPlaces = new CompanyJobPlaces(0,0,0);
         Debug.Log($"{DBValues.Player.ID}, {DBValues.Player.Money}");
         Debug.Log($"---- {DBValues.JobsNS.Names.Length}, {DBValues.JobsNS.Surnames.Length}");

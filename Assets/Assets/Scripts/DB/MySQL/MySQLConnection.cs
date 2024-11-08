@@ -13,6 +13,8 @@ public class MySQLConnection : MonoBehaviour
 
     static private MySqlConnection connection;
 
+    bool FirstBool = false;
+
     void Awake()
     {
         connectionString = $"Server={server}; port=3307; UID={user}; password={password}; Database=unity_db;";
@@ -48,13 +50,60 @@ public class MySQLConnection : MonoBehaviour
                 male_surname VARCHAR(50),
                 female_surname VARCHAR(50)
             );", "Surnames");
+        
+        CreateTable(@$"
+                CREATE TABLE IF NOT EXISTS  rooms (
+                        ID INT PRIMARY KEY,
+                        Room INT NOT NULL,
+                        Type INT NOT NULL,
+                        Level INT NOT NULL,
+                        PosX FLOAT NOT NULL,
+                        PosY FLOAT NOT NULL
+                    );", "rooms");
 
-        //using (MySqlConnection conn = new MySqlConnection(connectionString))
-        //{
-        //    conn.Open();
-        //    InsertNames(conn);
-        //    InsertSurnames(conn);
-        //}
+        if (FirstBool) {
+            Rooms[] Roomz = new Rooms[18];
+            for(int i = 0; i < 6; i++) 
+            {              
+                Roomz[i] = new Rooms(
+                    id: i, 
+                    room: (Room)1, 
+                    type: (TypeRoom)1,
+                    level: 0,  
+                    posRoom: new Vector2(-10f * i, 0)    
+                );  
+            }
+
+            for (int i = 0; i < 6; i++)
+            {
+                Roomz[i + 6] = new Rooms(
+                    id: i + 6,
+                    room: (Room)1,
+                    type: (TypeRoom)1,
+                    level: 0,
+                    posRoom: new Vector2(-10f * i, 10)
+                );
+            }
+
+            for (int i = 0; i < 6; i++)
+            {
+                Roomz[i + 12] = new Rooms(
+                    id: i + 12,
+                    room: (Room)1,
+                    type: (TypeRoom)1,
+                    level: 0,
+                    posRoom: new Vector2(-10f * i, 20)
+                );
+            }
+            SetRooms(Roomz);
+
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                InsertNames(conn);
+                InsertSurnames(conn);
+            }
+        }
     }
 
     void CreateDatabase()
@@ -137,6 +186,8 @@ public class MySQLConnection : MonoBehaviour
                         }
                     }
                 }
+
+                conn.Close();
             }
         }
         catch (Exception ex)
@@ -182,6 +233,7 @@ public class MySQLConnection : MonoBehaviour
                         Debug.Log("Не удалось вставить данные.");
                     }
                 }
+                conn.Close();
             }
         }
         catch (Exception ex)
@@ -215,6 +267,7 @@ public class MySQLConnection : MonoBehaviour
                         Debug.Log("Не удалось обновить данные.");
                     }
                 }
+                conn.Close();
             }
         }
         catch (Exception ex)
@@ -256,6 +309,7 @@ public class MySQLConnection : MonoBehaviour
                         }
                     }
                 }
+                conn.Close();
             }
         }
         catch (Exception ex)
@@ -323,6 +377,7 @@ public class MySQLConnection : MonoBehaviour
                         }
                     }
                 }
+                conn.Close();
             }
         }
         catch (Exception ex)
@@ -443,6 +498,8 @@ public class MySQLConnection : MonoBehaviour
                         }
                     }
                 }
+
+                conn.Close();
             }
         }
         catch (Exception ex)
@@ -453,6 +510,78 @@ public class MySQLConnection : MonoBehaviour
         JobsNS jobsNS = new JobsNS(jobsNames.ToArray(), jobsSurnames.ToArray());
 
         return jobsNS;
+    }
+
+    public static Rooms[] LoadRooms()
+    {
+        List<Rooms> roomsList = new List<Rooms>();
+
+        try
+        {
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string query = "SELECT ID, Room, Type, Level, PosX, PosY FROM rooms";
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Rooms room = new Rooms
+                            (
+                                reader.GetInt32("ID"),
+                                (Room)reader.GetInt32("Room"),
+                                (TypeRoom)reader.GetInt32("Type"),
+                                reader.GetInt32("Level"),
+                                new Vector2(reader.GetFloat("PosX"), reader.GetFloat("PosY"))
+                            );
+                            roomsList.Add(room);
+                        }
+                    }
+                }
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Ошибка загрузки комнат: " + ex.Message);
+        }
+
+        return roomsList.ToArray();
+    }
+
+    public static void SetRooms(Rooms[] rooms)
+    {
+        try
+        {
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string query = "INSERT INTO rooms (ID, Room, Type, Level, PosX, PosY) VALUES (@ID, @Room, @Type, @Level, @PosX, @PosY) " +
+                               "ON DUPLICATE KEY UPDATE Room=@Room, Type=@Type, Level=@Level, PosX=@PosX, PosY=@PosY";
+
+                foreach (Rooms room in rooms)
+                {
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ID", room.ID);
+                        cmd.Parameters.AddWithValue("@Room", (int)room.room);
+                        cmd.Parameters.AddWithValue("@Type", (int)room.type);
+                        cmd.Parameters.AddWithValue("@Level", room.level);
+                        cmd.Parameters.AddWithValue("@PosX", room.posRoom.x);
+                        cmd.Parameters.AddWithValue("@PosY", room.posRoom.y);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Ошибка сохранения комнат: " + ex.Message);
+        }
     }
 }
 

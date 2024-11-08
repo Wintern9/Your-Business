@@ -228,7 +228,7 @@ public class DBValues : MonoBehaviour
 
     static public float MoneyValue;
     static public List<Credit> Credit = new List<Credit>();
-    static public List<Rooms> Rooms = new List<Rooms>();
+    static public Rooms[] Rooms = new Rooms[18];
     static public Player Player = new Player();
     static public List<HistoryCredit> HistoryCredit = new List<HistoryCredit>();
     static public JobsNS JobsNS = new JobsNS();
