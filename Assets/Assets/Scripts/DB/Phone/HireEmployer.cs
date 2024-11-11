@@ -14,6 +14,7 @@ public class HireEmployer : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     [SerializeField] private GameObject employerInfoObject;
     [SerializeField] private GameObject employerHireObject;
+    [SerializeField] private GameObject employerNotHireObject;
 
     private void Awake()
     {
@@ -55,7 +56,10 @@ public class HireEmployer : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
         if(procentBar >= 1f)
         {
-            EmployerHire();
+            if (true)
+                EmployerHire();
+            else
+                EmployerNotHire();
         }
     }
 
@@ -65,6 +69,16 @@ public class HireEmployer : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         {
             employerInfoObject.SetActive(false);
             employerHireObject.SetActive(true);
+            procentBar = 0f;
+            isMouseButtonDown = false;
+        }
+    }
+
+    void EmployerNotHire()
+    {
+        if (DBValues.CompanyJobPlaces.Recruter >= 0)
+        {
+            employerNotHireObject.SetActive(true);
             procentBar = 0f;
             isMouseButtonDown = false;
         }

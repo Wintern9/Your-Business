@@ -157,9 +157,7 @@ public struct JobsNS
 public enum JobName
 {
     Recruiter,
-    Accountant,
-    Marketing,
-    Programmer
+    DesignEngineer
 }
 
 public struct JobSkill
@@ -222,6 +220,25 @@ public struct CompanyJobPlaces
     }
 }
 
+public enum ItemType
+{
+    drink
+}
+
+public struct CustomItem
+{
+    public string ItemName { get; set; }
+    public Material Material { get; set; }
+    public ItemType ItemType { get; set; }
+
+    public CustomItem(string ItemName, Material Material, ItemType ItemType)
+    {
+        this.ItemName = ItemName;
+        this.Material = Material;
+        this.ItemType = ItemType;
+    }
+}
+
 public class DBValues : MonoBehaviour
 {
     public static int idCounter = -1;
@@ -237,6 +254,16 @@ public class DBValues : MonoBehaviour
     static public List<Employer> EmployerCompany = new List<Employer>();
 
     static public CompanyJobPlaces CompanyJobPlaces = new CompanyJobPlaces();
+
+    static public CustomItem CustomItem = new CustomItem();
+
+    static public string CompanyName;
+
+    static public int[] CountPlaces = new int[2];
+    static public int[] Places = new int[2];
+    static public int Room = 0;
+
+    static public int CountItem = 0;
 }
 
 public class JobSkillGenerator
@@ -252,24 +279,9 @@ public class JobSkillGenerator
             }
         },
         {
-            JobName.Accountant, new List<JobSkill>
+            JobName.DesignEngineer, new List<JobSkill>
             {
-                new JobSkill("Financial Reporting", 1, JobName.Accountant, 0.8f),
-                new JobSkill("Budget Management", 2, JobName.Accountant, 0.87f)
-            }
-        },
-        {
-            JobName.Marketing, new List<JobSkill>
-            {
-                new JobSkill("Social Media", 1, JobName.Marketing, 0.75f),
-                new JobSkill("Content Creation", 2, JobName.Marketing, 0.82f)
-            }
-        },
-        {
-            JobName.Programmer, new List<JobSkill>
-            {
-                new JobSkill("Coding", 1, JobName.Programmer, 0.9f),
-                new JobSkill("Debugging", 2, JobName.Programmer, 0.88f)
+                new JobSkill("Открывает разработку новых товаров", 1, JobName.DesignEngineer, 1f)
             }
         }
     };

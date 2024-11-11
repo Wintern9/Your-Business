@@ -88,6 +88,11 @@ public class ScenesLoader : MonoBehaviour
 
                     totalProgress = Mathf.Lerp(totalProgress, targetProgress, Time.deltaTime * 2f);
 
+                    if(totalProgress > 1f)
+                    {
+                        totalProgress = 1f;
+                    }
+
                     progressBar.fillAmount = totalProgress;
                     progressText.text = (totalProgress * 100f).ToString("F0") + "%";
 

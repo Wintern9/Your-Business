@@ -34,8 +34,6 @@ public class RoomsOfficeController : MonoBehaviour
                 GameObject obj = Instantiate(room);
                 obj.transform.SetParent(FloorPerent[GetIndexFloor(i)].transform);
 
-
-
                 Transform transform = obj.GetComponent<Transform>();
 
                 transform.localPosition = new Vector3(x, y/2, 0f);

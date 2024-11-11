@@ -18,6 +18,7 @@ public class S_BankAssistant : MonoBehaviour
                 if (hit.transform == transform)
                 {
                     GetComponent<SwitchButtonLogic>().ButtonClick();
+                    CameraCityMovement.DraggingFalse();
                 }
             }
         }

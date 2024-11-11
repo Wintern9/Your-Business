@@ -14,7 +14,7 @@ public class CameraCityMovement : MonoBehaviour
     public Vector2 zLimits = new Vector2(-50f, 50f);
 
     private Vector3 dragOrigin;
-    private bool isDragging = false;
+    static private bool isDragging = false;
 
     public EventSystem ESPhone;
     public EventSystemObject CPOPhone;
@@ -108,5 +108,10 @@ public class CameraCityMovement : MonoBehaviour
         position.y = Mathf.Clamp(position.y, zoomRange.x, zoomRange.y);
 
         transform.position = position;
+    }
+
+    static public void DraggingFalse()
+    {
+        isDragging = false;
     }
 }
